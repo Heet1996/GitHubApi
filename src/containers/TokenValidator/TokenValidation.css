@@ -1,0 +1,29 @@
+li
+{
+    list-style: none;
+ 
+    
+}
+.HomePage
+{
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.HomeList
+{
+    
+    position: absolute;
+    left: 35%;
+    top: 90%;
+    
+}
+
+.Button
+{
+    display: block;
+}
