@@ -3,8 +3,10 @@ import {Button} from '@material-ui/core'
 
 import './Home.css'
 
-export let Home=function(){
-
+export let Home=function(props){
+        let nextPage=()=>{
+            props.history.push('/token');
+        }    
         return(
             <main className="HomePage">
                 <div className="Center">
@@ -20,10 +22,7 @@ export let Home=function(){
                     <li>You can star or watch your favoriate public repo</li>
                     <li>Validate your Access token</li>
                 </ul>
-                <Button variant="contained" color="primary" href="/token">
-               
-  Start Finder
-</Button>
+                <Button variant="contained" color="primary" onClick={nextPage}>Start Finder</Button>
 </div>
 </div>
             </main>

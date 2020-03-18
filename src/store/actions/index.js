@@ -1,2 +1,2 @@
 export {tokenValidator,tokenSetter} from './tokenValidator';
-export {repoSearch} from './repoSearch';
+export {repoSearch,clearSearch} from './repoSearch';

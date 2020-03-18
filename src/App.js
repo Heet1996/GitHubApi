@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Route,Switch,withRouter, Redirect} from 'react-router';
 import {BrowserRouter} from "react-router-dom";
+import {connect} from 'react-redux';
 
 import {Home} from './components/Home/Home';
 import TokenValidator from './containers/TokenValidator/TokenValidation';
 import RepoSearch from './containers/RepoSearch/RepoSearch';
+import PrivateRouter from './hoc/PrivateRouter';
 
 import './App.css';
 
 
 
-function App() {
+class App extends Component {
+  render(){
+
   return (
     <div className="App">
       <BrowserRouter>
       <Switch>
             
             <Route path="/token" component={TokenValidator} />
-            <Route path="/repo" component={RepoSearch}/>
+            <PrivateRouter path="/repo" component={RepoSearch} token={this.props.token}/>
             <Route path="/" component={Home} />
             
             
@@ -25,6 +29,11 @@ function App() {
         </BrowserRouter>
     </div>
   );
+  }
 }
-
-export default App;
+let mapStateToProps=(state)=>{
+  return{
+    token:state.tokenValidator.token
+  }
+}
+export default connect(mapStateToProps)(App);

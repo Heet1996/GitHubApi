@@ -7,22 +7,25 @@ import {connect} from 'react-redux';
 
 // import './TokenValidation.css'
 import * as actions from '../../store/actions/index';
-import Repository from '../../components/Repository/Repository';
+import Repository from '../Repository/Repository';
+import './RepoSearch.css';
 
-const GET_ORGANIZATION = (queryString)=>`
-{
-    search(query: "${queryString}", type: REPOSITORY, first:5) {
+const GET_ORGANIZATION = (queryString,cursor)=>{
+   let search=`{search(query: "${queryString}", type: REPOSITORY, first:5,after:"${cursor}") {
         repositoryCount
         pageInfo {
           endCursor
           startCursor
+          hasNextPage
         }
         edges {
           node {
             ... on Repository {
               name
               id
-              description	
+              description
+              viewerHasStarred
+              viewerSubscription	
               watchers{
                 totalCount
               }
@@ -34,46 +37,73 @@ const GET_ORGANIZATION = (queryString)=>`
           }
         }
       }
-  }
-`
+  }`;
 
+  if(!cursor)
+  search=search.replace(`,after:"${cursor}"`,"");
+    
+  return search;
+}
 class RepoSearch extends Component
 {
     state={
-        repoName:null
+        repoName:''
     }
+    
     handleForm=(e)=>{
 
         e.preventDefault();
-        this.props.repoSearch(GET_ORGANIZATION(`is:public ${this.state.repoName} in:name`),this.props.token);
+        this.props.clearSearch();
+        this.setState({repoName:''});
+        let queryString=`is:public ${this.state.repoName} in:name`
+        this.props.repoSearch(GET_ORGANIZATION(queryString),this.props.token);
         
     }
     inputChangeHandler=(e)=>{
-
+        
         this.setState({repoName:e.target.value});
         
     }
-    repositoryMapper=()=>
     
-        this.props.repo.edges.map(({node})=>(<Repository key={node.id} repository={node} />))
+    fetchMoreRepo=()=>{ 
+        let {endCursor}=this.props.pageInfo;
+        let queryString=`is:public ${this.state.repoName} in:name`
+        return this.props.repoSearch(GET_ORGANIZATION(queryString,endCursor),this.props.token)
+    }
+    repositoryMapper=()=>{
+       let list= this.props.repo.map(({node})=>
+       (<Repository 
+        key={node.id} 
+        repository={node} 
+        viewerHasStarred={node.viewerHasStarred} 
+        viewerSubscription={node.viewerSubscription}
+        />))
+       let moreList=this.props.pageInfo.hasNextPage?(<Button onClick={this.fetchMoreRepo}>More List</Button>):<Button href="#top">No more results,Go To Top</Button>
+       return (
+           <>
+           {list}
+           {moreList}
+           </>
+       ) 
+    }
     
     render()
     {
     
-   
+   let formElement=(<form autoComplete="off" onSubmit={this.handleForm} className="FormInput">
+            
+   <TextField id="standard-basic" label="Enter Public Repository" name="repoName" onChange={this.inputChangeHandler} className="TextInput" value={this.state.repoName}/>
+   <Button  color="primary" className="Button Search" type="submit">Search</Button>
+   <Button color="secondary" className="Button Clear" onClick={this.props.clearSearch}>Clear All Results</Button>
+   </form>)
+   let repoList=this.props.repo.length ? this.repositoryMapper() : null;
+   let status=(<h4>{this.props.status}</h4>)
+   let repoCount =this.props.repoCount?(<p>Search Count :{this.props.repoCount}</p>):null;
     return (  
 
-      <main className="RepoPage">
-        {this.props.error ? (<p>{this.props.error.message}</p>) :
-        (<form autoComplete="off" onSubmit={this.handleForm}>
-            
-        <TextField id="standard-basic" label="Enter Public Repository" name="repoName" onChange={this.inputChangeHandler}/>
-        <Button variant="contained" color="primary" className="Button" type="submit">Search</Button>
-        { this.props.repo ? this.repositoryMapper() : null}
-    </form>) 
-        }
-        
-    </main>
+      <main className="RepoPage" id="top">
+        {this.props.error ? (<p>{this.props.error.message}</p>) : <>{formElement}{repoCount}{repoList}{status}</>}
+     </main>
 )
     }
 }
@@ -83,12 +113,16 @@ const mapStateToProps=(state)=>{
         repo:state.repoReducer.repo,
         loading:state.repoReducer.loading,
         error:state.repoReducer.error,
-        token:state.tokenValidator.token
+        token:state.tokenValidator.token,
+        pageInfo:state.repoReducer.pageInfo,
+        status:state.repoReducer.status,
+        repoCount:state.repoReducer.repositoryCount
     }
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
         repoSearch:(query,token)=>dispatch(actions.repoSearch(query,token)),
+        clearSearch:()=>dispatch(actions.clearSearch())
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(RepoSearch);

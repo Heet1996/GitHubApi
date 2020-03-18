@@ -10,13 +10,12 @@ import * as actions from '../../store/actions/index';
 class TokenValidator extends Component
 {
     state={
-        token:null
+        token:''
     }
     handleForm=(e)=>{
 
         e.preventDefault();
-        this.props.onSetToken(this.state.token);
-        this.props.history.push('/repo')
+        this.props.tokenValidator(this.state.token);
         
     }
     inputChangeHandler=(e)=>{
@@ -26,6 +25,13 @@ class TokenValidator extends Component
     }
     render()
     {
+      let err='';  
+      if(this.props.error)
+      {
+        if(this.props.error=='INVALID')
+        err=(<h4>Please Enter the Valid Token</h4>)
+        else err=(<h4>{this.props.error.message}</h4>);
+      }  
       return (  
       <main className="TokenPage">
         <h3 className="Header">
@@ -34,9 +40,10 @@ class TokenValidator extends Component
         </h3>
         <form autoComplete="off" onSubmit={this.handleForm}>
             
-            <TextField id="standard-basic" label="Access Token" name="token" onChange={this.inputChangeHandler} value={this.props.token}/>
+            <TextField id="standard-basic" label="Access Token" name="token" onChange={this.inputChangeHandler}/>
             <Button variant="contained" color="primary" className="Button" type="submit">Submit</Button>
-
+             {err}   
+             {this.props.token?this.props.history.push('/repo'):null}
         </form>
     </main>
 )
@@ -52,8 +59,7 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
-        tokenValidator:(token)=>dispatch(actions.tokenValidator(token)),
-        onSetToken:(token)=>dispatch(actions.tokenSetter(token))
+        tokenValidator:(token)=>dispatch(actions.tokenValidator(token))
 
     }
 }

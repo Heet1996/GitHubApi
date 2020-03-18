@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import {StarBorderRounded,VisibilityRounded} from '@material-ui/icons';
+import {StarBorderRounded,VisibilityRounded,Star,VisibilityOff} from '@material-ui/icons';
 
 
 const useStyles = makeStyles({
@@ -16,7 +16,6 @@ const useStyles = makeStyles({
   title: {
     fontSize:'3rem',
     marginBottom: 3
-
   },
   description:{
 
@@ -26,9 +25,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function OutlinedCard({repository}) {
+export default function OutlinedCard({repository,viewerHasStarred,viewerSubscription,starToogler,watchToggler,starCount,watchCount}) {
   const classes = useStyles();
-
+  let StarComponent=viewerHasStarred ? Star  :StarBorderRounded
+  let WatchComponent=viewerSubscription==='SUBSCRIBED' ? VisibilityOff  :VisibilityRounded
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
@@ -44,10 +44,10 @@ export default function OutlinedCard({repository}) {
       </CardContent>
       <CardActions>
         <Typography className={classes.pos} color="textSecondary" >
-            <IconButton component={StarBorderRounded} />{repository.stargazers.totalCount}
+          <IconButton component={StarComponent} onClick={starToogler}/>{starCount}
         </Typography>
         <Typography className={classes.pos} color="textSecondary" >
-        <IconButton component={VisibilityRounded} />{repository.watchers.totalCount}
+        <IconButton component={WatchComponent} onClick={watchToggler}/>{watchCount}
         </Typography>
         
       </CardActions>

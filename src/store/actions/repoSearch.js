@@ -14,6 +14,13 @@ export let repoSearchSuccess=(repo)=>{
     }
 }
 
+export let repoSearchWithNoResult=(repo)=>{
+    return {
+        type:actionTypes.REPO_SEARCH_NO_RESULT,
+        repo:repo
+    }
+}
+
 export let repoSearchFail=(error)=>{
     return {
         type:actionTypes.REPO_SEARCH_FAIL,
@@ -21,20 +28,27 @@ export let repoSearchFail=(error)=>{
     }
 }
 
-export let repoSearch=(query,token)=>(dispatch)=>{
+export let clearSearch=()=>{
+    return {
+        type:actionTypes.CLEAR_SEARCH
+    }
+}
+
+export let repoSearch=(query,token,cursor)=>(dispatch)=>{
 
     dispatch(repoSearchStart());
     axios.post(`https://api.github.com/graphql`,{
-        query:query
+        query:query,
+        variables:{cursor}
     },{
         headers:{
             'Authorization':`bearer ${token}`
         }
     })
     .then((res)=>{
-
-        
-        dispatch(repoSearchSuccess(res.data.data.search))
+        if(res.data.data.search.edges.length==0)
+        dispatch(repoSearchWithNoResult(res.data.data.search));
+        else dispatch(repoSearchSuccess(res.data.data.search));
     })
     .catch((err)=>{
           dispatch(repoSearchFail(err)); 
