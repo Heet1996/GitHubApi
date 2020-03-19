@@ -1,30 +1,48 @@
 import React from 'react';
-import {Button} from '@material-ui/core'
+import {SearchSharp,ArrowRightSharp,StarSharp,VerifiedUserSharp} from '@material-ui/icons';
+
+
 
 import './Home.css'
 
-export let Home=function(props){
+ export let Home=function(props){
         let nextPage=()=>{
             props.history.push('/token');
         }    
         return(
             <main className="HomePage">
-                <div className="Center">
-                <h3 className="Header">
-                    GitHub Repo Finder
+                
+                <header className="Header">
+                    <h3 className="Title">GitHub Repo Finder</h3>
                     <p>A simple application which helps to perform below actions on GitHub with the help of Access token</p>    
-                </h3>
+                </header>
 
                 <div className="HomeList"> 
-                <ul>
-                    <li>Find a GitHub Public Repo</li>
-                    <li>Provides Star and Watch count with more details</li>
-                    <li>You can star or watch your favoriate public repo</li>
-                    <li>Validate your Access token</li>
+                
+                <ul className="list">
+                    <li>
+                        <VerifiedUserSharp className="icon" fontSize="large"></VerifiedUserSharp>
+                        Validate your Access token
+                    </li>
+                    <li>
+                    <SearchSharp className="icon" fontSize="large"></SearchSharp>
+                    Find a GitHub Public Repo
+                    </li>
+                    <li>
+                     <ArrowRightSharp className="icon" fontSize="large"></ArrowRightSharp>   
+                        Provides the repo details of Results
+                    </li>
+                    <li>
+                        <StarSharp className="icon" fontSize="large"></StarSharp>
+                        Star or watch your favoriate git repo
+                    </li>
+
                 </ul>
-                <Button variant="contained" color="primary" onClick={nextPage}>Start Finder</Button>
-</div>
-</div>
+                
+                <button class="btn-inline" onClick={nextPage}>Start Finder</button>
+                </div>
+
             </main>
         )
 }
+

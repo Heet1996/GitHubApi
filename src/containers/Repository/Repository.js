@@ -5,29 +5,7 @@ import RepoInfo from '../../components/UI/Card/Card';
 import './Repository.css';
 import axios from 'axios'
 
-let STAR_TOGGLER =()=> `
-
-  mutation ($repositoryId: ID!) {
-    addStar(input:{starrableId:$repositoryId}) {
-      starrable {
-        viewerHasStarred
-      }
-    }
-  }
-
-`;
-
-let WATCH_TOGGLER=`
-mutation UpdateWatcher($repositoryId: ID!, $subscribeState: SubscriptionState!){
-  updateSubscription(input:{subscribableId:$repositoryId,state:$subscribeState}){
-    subscribable{
-      id
-      viewerSubscription
-    }
-  }
-  
-}
-`
+import {STAR_TOGGLER,WATCH_TOGGLER} from '../../query';
 class Repository extends Component
 {
   state={
@@ -69,7 +47,7 @@ class Repository extends Component
   
   watchToggler=()=>{
    let subscribeState=this.state.viewerSubscription;  
-   subscribeState=subscribeState=='SUBSCRIBED'?'UNSUBSCRIBED':'SUBSCRIBED';
+   subscribeState=subscribeState==='SUBSCRIBED'?'UNSUBSCRIBED':'SUBSCRIBED';
    let repositoryId=this.props.repository.id;
    let mutuateWatch=WATCH_TOGGLER;
    axios.post(`https://api.github.com/graphql`,{
@@ -82,7 +60,7 @@ class Repository extends Component
   })
     .then(()=>{
       let count=this.state.watchCount;
-      count=subscribeState=='SUBSCRIBED'?count+1:count-1;
+      count=subscribeState==='SUBSCRIBED'?count+1:count-1;
       this.setState({viewerSubscription:subscribeState,watchCount:count});
       
     })

@@ -1,32 +1,57 @@
 .RepoPage
 {
-    padding: 2.5rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  min-height: 90vh;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
 }
-.FormInput
+.repoBox
 {
-    width: 60%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+}
+.searchCount
+{
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+.formElement2
+{
+    width:50rem;
+    display: flex;
+    flex-direction: row;
+    align-items: space-evenly;
+}
+.formInput
+{
+
+    position: relative;
+    padding: 1rem;
+    border: 0;
+    border-bottom: 2px solid var(--color-grey-dark-1);
+    outline: 0;
+    margin-top: 10px;
+    width: 80%;
+    background: transparent;
+    margin-right: 2rem;
+}
+
+.btn
+{
+    padding: 1rem;
+    background-color:var(--btn-color);
+    color:white;
+    border: none;
+    display: inline-block;
+    width: 30%;
+    margin-right: 2rem;
 
 }
-.TextInput
+
+.status
 {
-    flex-grow: 2;
-    margin-right: 0.5rem;
-}
-.Search
-{
-    flex-grow: 1;
-    
-    
-}
-.Clear
-{
-    flex-grow: 1;
-    
-    
+    font-size: 1.4rem;
+    margin-top: 1.3rem;
+
 }

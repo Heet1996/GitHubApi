@@ -46,7 +46,7 @@ export let repoSearch=(query,token,cursor)=>(dispatch)=>{
         }
     })
     .then((res)=>{
-        if(res.data.data.search.edges.length==0)
+        if(res.data.data.search.edges.length===0)
         dispatch(repoSearchWithNoResult(res.data.data.search));
         else dispatch(repoSearchSuccess(res.data.data.search));
     })

@@ -1,25 +1,60 @@
+.HomePage
+{
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;  
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+
+  
+}
+.Header
+{
+  margin-bottom: 4rem;
+  text-align: center;
+  font-size: 1.5rem;
+
+}
+.Title
+{
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+.HomeList
+{
+  padding: 1rem;
+  position: relative;  
+}
+.list
+{
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+ul{
+  padding: 1rem;
+}
 li
 {
     list-style: none;
- 
+    margin-bottom: 2rem;
     
 }
-.HomePage
+.icon
 {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-}
+  margin: 0rem 1rem;
 
-.HomeList
+}
+.btn-inline
 {
-    
-    position: absolute;
-    left: 35%;
-    top: 90%;
-    
+  
+  padding: 1rem;
+  background-color:var(--btn-color);
+  color:white;
+  border: none;
+  display: inline-block;
+  width: 50%;
+  position: absolute;
+  left: 25%;
 }
-

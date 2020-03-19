@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Button} from '@material-ui/core';
-import {TextField} from '@material-ui/core';
-import {connect} from 'react-redux';
+import { Button } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 
 
@@ -9,120 +8,102 @@ import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Repository from '../Repository/Repository';
 import './RepoSearch.css';
+import { GET_ORGANIZATION } from '../../query';
 
-const GET_ORGANIZATION = (queryString,cursor)=>{
-   let search=`{search(query: "${queryString}", type: REPOSITORY, first:5,after:"${cursor}") {
-        repositoryCount
-        pageInfo {
-          endCursor
-          startCursor
-          hasNextPage
-        }
-        edges {
-          node {
-            ... on Repository {
-              name
-              id
-              description
-              viewerHasStarred
-              viewerSubscription	
-              watchers{
-                totalCount
-              }
-              stargazers{
-                totalCount
-              }
-              url
-            }
-          }
-        }
-      }
-  }`;
-
-  if(!cursor)
-  search=search.replace(`,after:"${cursor}"`,"");
-    
-  return search;
-}
-class RepoSearch extends Component
-{
-    state={
-        repoName:''
+class RepoSearch extends Component {
+    state = {
+        repoName: ''
     }
-    
-    handleForm=(e)=>{
+
+    handleForm = (e) => {
 
         e.preventDefault();
         this.props.clearSearch();
-        this.setState({repoName:''});
-        let queryString=`is:public ${this.state.repoName} in:name`
-        this.props.repoSearch(GET_ORGANIZATION(queryString),this.props.token);
-        
-    }
-    inputChangeHandler=(e)=>{
-        
-        this.setState({repoName:e.target.value});
-        
-    }
-    
-    fetchMoreRepo=()=>{ 
-        let {endCursor}=this.props.pageInfo;
-        let queryString=`is:public ${this.state.repoName} in:name`
-        return this.props.repoSearch(GET_ORGANIZATION(queryString,endCursor),this.props.token)
-    }
-    repositoryMapper=()=>{
-       let list= this.props.repo.map(({node})=>
-       (<Repository 
-        key={node.id} 
-        repository={node} 
-        viewerHasStarred={node.viewerHasStarred} 
-        viewerSubscription={node.viewerSubscription}
-        />))
-       let moreList=this.props.pageInfo.hasNextPage?(<Button onClick={this.fetchMoreRepo}>More List</Button>):<Button href="#top">No more results,Go To Top</Button>
-       return (
-           <>
-           {list}
-           {moreList}
-           </>
-       ) 
-    }
-    
-    render()
-    {
-    
-   let formElement=(<form autoComplete="off" onSubmit={this.handleForm} className="FormInput">
-            
-   <TextField id="standard-basic" label="Enter Public Repository" name="repoName" onChange={this.inputChangeHandler} className="TextInput" value={this.state.repoName}/>
-   <Button  color="primary" className="Button Search" type="submit">Search</Button>
-   <Button color="secondary" className="Button Clear" onClick={this.props.clearSearch}>Clear All Results</Button>
-   </form>)
-   let repoList=this.props.repo.length ? this.repositoryMapper() : null;
-   let status=(<h4>{this.props.status}</h4>)
-   let repoCount =this.props.repoCount?(<p>Search Count :{this.props.repoCount}</p>):null;
-    return (  
+        this.setState({ repoName: '' });
+        let queryString = `is:public ${this.state.repoName} in:name`
+        this.props.repoSearch(GET_ORGANIZATION(queryString), this.props.token);
 
-      <main className="RepoPage" id="top">
-        {this.props.error ? (<p>{this.props.error.message}</p>) : <>{formElement}{repoCount}{repoList}{status}</>}
-     </main>
-)
     }
-}
+    inputChangeHandler = (e) => this.setState({ repoName: e.target.value });
 
-const mapStateToProps=(state)=>{
-    return {
-        repo:state.repoReducer.repo,
-        loading:state.repoReducer.loading,
-        error:state.repoReducer.error,
-        token:state.tokenValidator.token,
-        pageInfo:state.repoReducer.pageInfo,
-        status:state.repoReducer.status,
-        repoCount:state.repoReducer.repositoryCount
+    
+
+    fetchMoreRepo = () => {
+        let { endCursor } = this.props.pageInfo;
+        let queryString = `is:public ${this.state.repoName} in:name`
+        return this.props.repoSearch(GET_ORGANIZATION(queryString, endCursor), this.props.token)
     }
-}
-const mapDispatchToProps=(dispatch)=>{
-    return {
-        repoSearch:(query,token)=>dispatch(actions.repoSearch(query,token)),
-        clearSearch:()=>dispatch(actions.clearSearch())
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(RepoSearch);
+    repositoryMapper = () => {
+            let list = this.props.repo.map(({ node }) =>
+                    ( <Repository key = { node.id }
+                        repository = { node }
+                        viewerHasStarred = { node.viewerHasStarred }
+                        viewerSubscription = { node.viewerSubscription }
+                        />))
+                        let moreList = this.props.pageInfo.hasNextPage ? ( <Button onClick = { this.fetchMoreRepo } className="btn"> More List </Button>):<Button href="#top">No more results,Go To Top</Button >
+                                return ( <> { list } { moreList } </>)
+                                }
+
+                                render() {
+
+                                    let formElement = (
+                                        <div className="repoBox">
+                                        <form autoComplete = "off"
+                                        onSubmit = { this.handleForm } 
+                                        className="formElement2"
+                                        >
+                                      
+                                        <input name = "repoName"
+                                        onChange = { this.inputChangeHandler }
+                                        className = "formInput"
+                                        placeholder="Search Your Repository here..."
+                                        value = { this.state.repoName }
+                                        /> 
+                                        
+                                        <button color = "primary"
+                                        className = "btn btn-search"
+                                        type = "submit" > Search </button> 
+                                         
+                                        
+                                    </form>  
+                                    <button 
+                                        className = "btn btn-clear"
+                                        onClick = { this.props.clearSearch }> Clear All Results </button>
+                                        </div>)
+                                    let repoList = this.props.repo.length ? this.repositoryMapper() : null;
+                                    let status = ( <h4 className="status"> { this.props.status } </h4>)
+                                    let repoCount = this.props.repoCount ? ( <p className="searchCount"> Search Count: { this.props.repoCount } </p>):null;
+                                        return (
+
+                                        <main className = "RepoPage" id = "top"> 
+                                                {this.props.error ? ( <p> { this.props.error.message } </p>) : 
+                                                <>
+                                                    {formElement}
+                                                    {repoCount}
+                                                    {repoList}
+                                                    {status}
+                                                </>
+                                                } 
+                                        </main>
+                                    )
+                                }
+                            }
+
+                                            const mapStateToProps = (state) => {
+                                                return {
+                                                    repo: state.repoReducer.repo,
+                                                    loading: state.repoReducer.loading,
+                                                    error: state.repoReducer.error,
+                                                    token: state.tokenValidator.token,
+                                                    pageInfo: state.repoReducer.pageInfo,
+                                                    status: state.repoReducer.status,
+                                                    repoCount: state.repoReducer.repositoryCount
+                                                }
+                                            }
+                                            const mapDispatchToProps = (dispatch) => {
+                                                return {
+                                                    repoSearch: (query, token) => dispatch(actions.repoSearch(query, token)),
+                                                    clearSearch: () => dispatch(actions.clearSearch())
+                                                }
+                                            }
+                                            export default connect(mapStateToProps, mapDispatchToProps)(RepoSearch);

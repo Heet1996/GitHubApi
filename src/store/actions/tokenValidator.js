@@ -30,8 +30,8 @@ export let tokenInvalid=()=>{
 export let tokenSetter=(token)=>{
       return{
           type:actionTypes.TOKEN_SETTER,
-          token
-      }  
+          token  
+        }  
 }
 
 export let tokenValidator=(token)=>(dispatch)=>{

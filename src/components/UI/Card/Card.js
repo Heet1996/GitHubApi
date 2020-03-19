@@ -3,26 +3,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+
+import Icon from '@material-ui/core/Icon';
 import {StarBorderRounded,VisibilityRounded,Star,VisibilityOff} from '@material-ui/icons';
 
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    fontSize:'2rem'
   },
   title: {
-    fontSize:'3rem',
+    fontSize:'4rem',
     marginBottom: 3
   },
   description:{
-
+    fontSize:'2rem'
   },
   pos: {
-    marginBottom: 8
+    fontSize:'2rem',
+    marginBottom: 12
   },
+  count:{
+    display:'inline-block',
+    marginLeft:'0.5rem',
+    marginRight:'1rem'
+  },
+  icon:{
+   fontSize:'2rem'
+  }
 });
 
 export default function OutlinedCard({repository,viewerHasStarred,viewerSubscription,starToogler,watchToggler,starCount,watchCount}) {
@@ -39,16 +49,18 @@ export default function OutlinedCard({repository,viewerHasStarred,viewerSubscrip
           {repository.description}
         </Typography>
         <Typography className={classes.pos} color="textSecondary" >
-          Repo Link: <a target="_blank" href={repository.url}>{repository.url}</a>
+          Repo Link: <a target="_blank" rel="noopener noreferrer" href={repository.url}>{repository.url}</a>
         </Typography>
       </CardContent>
       <CardActions>
-        <Typography className={classes.pos} color="textSecondary" >
-          <IconButton component={StarComponent} onClick={starToogler}/>{starCount}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary" >
-        <IconButton component={WatchComponent} onClick={watchToggler}/>{watchCount}
-        </Typography>
+        
+          <Icon component={StarComponent} onClick={starToogler} className={classes.icon}/>
+          <span className={classes.count}>{starCount}</span>
+        
+        
+        <Icon component={WatchComponent} onClick={watchToggler} className={classes.icon}/>
+        <span className={classes.count}>{watchCount}</span>
+        
         
       </CardActions>
     </Card>

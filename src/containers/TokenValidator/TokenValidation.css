@@ -1,29 +1,64 @@
-li
+.TokenPage
 {
-    list-style: none;
- 
-    
-}
-.HomePage
-{
-  padding: 20px;
+  min-height: 90vh;
   display: flex;
+  flex-direction: column;  
   justify-content: center;
   align-items: center;
+  padding: 4rem;
+
+  
+}
+.Header
+{
+  margin-bottom: 4rem;
   text-align: center;
-  position: relative;
-}
+  font-size: 1.5rem;
 
-.HomeList
-{
-    
-    position: absolute;
-    left: 35%;
-    top: 90%;
-    
 }
-
-.Button
+.title
 {
-    display: block;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+.formElement
+{
+    display: flex;
+    flex-direction: column;
+    width:50rem;
+    justify-content: center;
+    align-items:center ;
+
+}
+.textField
+{
+    padding: 1rem;
+    border: 1px solid grey;
+    border-radius: 1rem;
+    width:30rem;
+    margin-bottom: 2rem;
+    border-style: none;
+
+}
+input:focus
+{
+    outline: none;
+}
+.btn-inline-form
+{
+  
+  padding: 1rem;
+  background-color:var(--btn-color);
+  color:white;
+  border: none;
+  width: 25%;
+  margin-top: 4rem;
+
+}
+.error
+{
+    color:salmon;
+    font-size: 2rem;
+    
 }
