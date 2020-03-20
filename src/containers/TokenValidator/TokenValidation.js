@@ -43,7 +43,7 @@ class TokenValidator extends Component
         
         <form autoComplete="off" onSubmit={this.handleForm} className="formElement">
             
-            <input type="text" className="textField" name="token" onChange={this.inputChangeHandler} />
+            <input type="text" className="textField" name="token" onChange={this.inputChangeHandler} placeholder="Enter your token here....." />
             {err}
             <button className="btn-inline-form" type="submit">Submit</button>
                 
