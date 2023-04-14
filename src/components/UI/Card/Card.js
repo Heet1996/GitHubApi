@@ -1,12 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import {Card, CardActions, CardContent, Icon, makeStyles, Typography} from "@mui/material";
+import {Star, StarBorderRounded, VisibilityOff, VisibilityRounded} from "@mui/icons-material";
 
-import Icon from '@material-ui/core/Icon';
-import {StarBorderRounded,VisibilityRounded,Star,VisibilityOff} from '@material-ui/icons';
 
 
 const useStyles = makeStyles({

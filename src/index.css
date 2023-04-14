@@ -2,10 +2,10 @@
   --color-primary:#2980B9;
   --color-primary-light:#6DD5FA;
   --color-primary-dark:#FFFFFF;
-  
+
   --color-grey-dark-1: #333;
   --color-grey-dark-2: #777;
-  
+
   --btn-color:#2d0eb6;
 }
 *
@@ -17,15 +17,15 @@
 *::before,
 *::after {
     box-sizing: inherit;
-} 
+}
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%; 
+  font-size: 62.5%;
+}
 
-  @media only screen and (max-width: 68.75em ) {
-      font-size: 50%;
-  }
+@media only screen and (max-width: 68.75em ) {
+  html {font-size: 50%;}
 }
 
 body {

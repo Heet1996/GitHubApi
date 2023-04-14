@@ -1,9 +1,10 @@
 import React from 'react';
-import {SearchSharp,ArrowRightSharp,StarSharp,VerifiedUserSharp} from '@material-ui/icons';
+
 
 
 
 import './Home.css'
+import {ArrowRightSharp, SearchSharp, StarSharp, VerifiedUserSharp} from "@mui/icons-material";
 
  export let Home=function(props){
         let nextPage=()=>{
@@ -34,12 +35,12 @@ import './Home.css'
                     </li>
                     <li>
                         <StarSharp className="icon" fontSize="large"></StarSharp>
-                        Star or watch your favoriate git repo
+                        Star or watch your favorite git repo
                     </li>
 
                 </ul>
                 
-                <button class="btn-inline" onClick={nextPage}>Start Finder</button>
+                <button className="btn-inline" onClick={nextPage}>Start Finder</button>
                 </div>
 
             </main>

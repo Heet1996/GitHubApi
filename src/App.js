@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import {Route, Routes} from 'react-router';
 import { BrowserRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ class App extends Component {
 
         return ( <div className = "App" >
             <BrowserRouter >
-                <Switch >
+                <Routes >
 
                     <Route path = "/token"
                     component = { TokenValidator }
@@ -29,7 +29,7 @@ class App extends Component {
                     <Route path = "/"
                     component = { Home }
                     />
-                </Switch> 
+                </Routes>
             </BrowserRouter> 
             </div>
         );
