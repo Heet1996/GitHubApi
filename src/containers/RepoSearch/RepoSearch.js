@@ -1,19 +1,29 @@
 import React, {Component} from 'react';
+import {styled} from '@mui/material/styles';
 import {connect} from 'react-redux';
 
 import * as actions from '../../store/actions/index';
 import Repository from '../Repository/Repository';
 import './RepoSearch.css';
 import {GET_ORGANIZATION} from '../../query';
-import {Button, withStyles} from "@mui/material";
+import {Button} from "@mui/material";
+import {withRouter} from "../../utils";
 
-const useStyles = (theme) => ({
-        btnList: {
-            fontSize: '2rem'
-        }
+const PREFIX = 'RepoSearch';
 
-    })
-;
+const classes = {
+    btnList: `${PREFIX}-btnList`
+};
+
+const Root = styled('main')((
+    {
+        theme
+    }
+) => ({
+    [`& .${classes.btnList}`]: {
+        fontSize: '2rem'
+    }
+}));
 
 class RepoSearch extends Component {
 
@@ -84,8 +94,7 @@ class RepoSearch extends Component {
         let status = (<h4 className="status"> {this.props.status} </h4>)
         let repoCount = this.props.repoCount ? (<p className="searchCount"> Search Result: Total {this.props.repoCount} Repository </p>) : null;
         return (
-
-            <main className="RepoPage" id="top">
+            <Root className="RepoPage" id="top">
                 {this.props.error ? (<p> {this.props.error.message} </p>) :
                     <>
                         {formElement}
@@ -94,8 +103,8 @@ class RepoSearch extends Component {
                         {status}
                     </>
                 }
-            </main>
-        )
+            </Root>
+        );
     }
 }
 
@@ -116,4 +125,4 @@ const mapDispatchToProps = (dispatch) => {
         clearSearch: () => dispatch(actions.clearSearch())
     }
 }
-export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(RepoSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RepoSearch));

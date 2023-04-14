@@ -6,6 +6,7 @@ import './Repository.css';
 import axios from 'axios'
 
 import {STAR_TOGGLER, WATCH_TOGGLER} from '../../query';
+import {withRouter} from "../../utils";
 
 class Repository extends Component {
     state = {
@@ -92,4 +93,4 @@ const mapStateToProps = (state) => {
         token: state.tokenValidator.token
     }
 }
-export default connect(mapStateToProps)(Repository);
+export default connect(mapStateToProps)(withRouter(Repository));

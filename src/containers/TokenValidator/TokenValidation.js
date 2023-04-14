@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import './TokenValidation.css'
 import * as actions from '../../store/actions/index';
+import {withRouter} from "../../utils";
 
 
 class TokenValidator extends Component {
@@ -19,6 +20,12 @@ class TokenValidator extends Component {
 
         this.setState({token: e.target.value});
 
+    }
+
+    inputSubmitHandler = (e) => {
+        if (this.state.token) {
+            this.props.router.navigate('/repo')
+        }
     }
 
     render() {
@@ -43,9 +50,8 @@ class TokenValidator extends Component {
 
                     <input type="text" className="textField" name="token" onChange={this.inputChangeHandler} placeholder="Enter your token here....."/>
                     {err}
-                    <button className="btn-inline-form" type="submit">Submit</button>
+                    <button className="btn-inline-form" type="submit" onClick={() => this.inputSubmitHandler()}>Submit</button>
 
-                    {this.props.token ? this.props.history.push('/repo') : null}
                 </form>
             </div>
         )
@@ -65,4 +71,4 @@ const mapDispatchToProps = (dispatch) => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TokenValidator);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TokenValidator));
