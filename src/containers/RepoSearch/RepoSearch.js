@@ -7,7 +7,6 @@ import Repository from '../Repository/Repository';
 import './RepoSearch.css';
 import {GET_ORGANIZATION} from '../../query';
 import {Button} from "@mui/material";
-import {withRouter} from "../../utils";
 
 const PREFIX = 'RepoSearch';
 
@@ -49,8 +48,6 @@ class RepoSearch extends Component {
         return this.props.repoSearch(GET_ORGANIZATION(queryString, endCursor), this.props.token)
     }
     repositoryMapper = () => {
-
-        const {classes} = this.props;
         let list = this.props.repo.map(({node}) =>
             (<Repository key={node.id}
                          repository={node}
@@ -125,4 +122,4 @@ const mapDispatchToProps = (dispatch) => {
         clearSearch: () => dispatch(actions.clearSearch())
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RepoSearch));
+export default connect(mapStateToProps, mapDispatchToProps) (RepoSearch);

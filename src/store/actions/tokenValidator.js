@@ -51,13 +51,13 @@ export let tokenValidator = (token) => (dispatch) => {
     })
         .then((res) => {
             dispatch(tokenValidSuccess());
-            if (res.status === '200')
+            if (res.status === 200)
                 dispatch(tokenSetter(token));
 
         })
         .catch((err) => {
             if (err.response) {
-                if (err.response.status === '401')
+                if (err.response.status === 401)
                     dispatch(tokenInvalid());
                 else dispatch(tokenValidationFail(err));
             } else dispatch(tokenValidationFail(err));
