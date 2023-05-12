@@ -1,71 +1,66 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-export let tokenValidStart=()=>{
+export let tokenValidStart = () => {
     return {
-        type:actionTypes.START_TOKEN_VALIDATION
+        type: actionTypes.START_TOKEN_VALIDATION
     }
 }
 
-export let tokenValidSuccess=()=>{
+export let tokenValidSuccess = () => {
     return {
-        type:actionTypes.TOKEN_VALIDATION_SUCCESS,
-        
+        type: actionTypes.TOKEN_VALIDATION_SUCCESS,
     }
 }
 
-export let tokenValidationFail=(err)=>{
+export let tokenValidationFail = (err) => {
     return {
-        type:actionTypes.TOKEN_VALIDATION_FAIL,
-        err:err
+        type: actionTypes.TOKEN_VALIDATION_FAIL,
+        err: err
     }
 }
 
-export let tokenInvalid=()=>{
+export let tokenInvalid = () => {
     return {
-        type:actionTypes.TOKEN_INVALID
+        type: actionTypes.TOKEN_INVALID
     }
 }
 
-export let tokenSetter=(token)=>{
-      return{
-          type:actionTypes.TOKEN_SETTER,
-          token  
-        }  
+export let tokenSetter = (token) => {
+    return {
+        type: actionTypes.TOKEN_SETTER,
+        token
+    }
 }
 
-export let tokenValidator=(token)=>(dispatch)=>{
-
+export let tokenValidator = (token) => (dispatch) => {
     dispatch(tokenValidStart());
-    let query=`{
+    let query = `{
         query{
             rateLimit{
                 remaining
             }
         }
     }`
-    axios.post(`https://api.github.com/graphql`,{
-        query:query
-    },{
-        headers:{
-            'Authorization':`bearer ${token}`
+    axios.post(`https://api.github.com/graphql`, {
+        query: query
+    }, {
+        headers: {
+            'Authorization': `bearer ${token}`
         }
     })
-    .then((res)=>{
-        dispatch(tokenValidSuccess());
-        if(res.status=='200')
-        dispatch(tokenSetter(token));
-        
-    })
-    .catch((err)=>{
-            
-            if(err.response)
-            {
-                if(err.response.status=='401')
-                dispatch(tokenInvalid());
-                else dispatch(tokenValidationFail(err)); 
-            }
-            else dispatch(tokenValidationFail(err)); 
-    })
+        .then((res) => {
+            dispatch(tokenValidSuccess());
+            if (res.status === 200)
+                dispatch(tokenSetter(token));
+
+        })
+        .catch((err) => {
+            if (err.response) {
+                if (err.response.status === 401)
+                    dispatch(tokenInvalid());
+                else dispatch(tokenValidationFail(err));
+            } else dispatch(tokenValidationFail(err));
+        })
 
 }
