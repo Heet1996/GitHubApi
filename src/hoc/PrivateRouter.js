@@ -1,10 +1,9 @@
 import {Navigate} from "react-router"
-import React, {useState} from 'react';
+import React from 'react';
 
-let PrivateRoute = ({ children}) => {
-    const auth = useState();
-    // return rest.token ? children : <Navigate to="/token" />;
-    return children;
+
+let PrivateRoute = ({ children, ...rest}) => {
+    return rest.token ? children : <Navigate to="/token"  />;
 };
 
 export default PrivateRoute;

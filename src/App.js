@@ -23,7 +23,7 @@ class App extends Component {
                         />
                         <Route path="/repo"
                                element={
-                            <PrivateRoute>
+                            <PrivateRoute token={this.props.token}>
                                 <RepoSearch/>
                             </PrivateRoute>
                         }
